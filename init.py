@@ -9,6 +9,7 @@ import pandas as pd
 
 
 def lower_image_resolution(interations: int, resolution: tuple, images_path: str, label: str) -> None:
+    print(f"Converting For Label: {label}")
     all_paths = os.listdir(images_path)
     if interations < 0:
         interations = len(all_paths)
@@ -25,27 +26,27 @@ def lower_image_resolution(interations: int, resolution: tuple, images_path: str
         
         os.makedirs(parent_path, exist_ok=True)
         
-        resized_image = img.resize(resolution, Image.LANCZOS).convert('RGB')
+        resized_image = img.resize(resolution, Image.LANCZOS).convert('RGB') # type: ignore
         resized_image.save(final_path)
     print(f"Conversion Complete For Label: {label}")
 
 
-def lower_all_images() -> bool:
-    if len(os.listdir(Constants.OUTPUT_PATH)) > 0:
-        return False
+def lower_all_images():
     for folderPath in os.listdir(Constants.INPUT_PATH):
         lower_image_resolution(interations=-1, resolution=(32,32), images_path=os.path.join(Constants.INPUT_PATH,folderPath),label=folderPath)
-    return True
 
 
 def image_to_num():
     images_list = os.listdir(Constants.OUTPUT_PATH)
+    
+    if len(os.listdir(Constants.OUTPUT_PATH)) == 0:
+        lower_all_images()
+    
     output = []
     labels = []
-
     for label in images_list:
         for image_name in os.listdir(os.path.join(Constants.OUTPUT_PATH, label)):
-            img = Image.open(os.path.join(Constants.OUTPUT_PATH, label, image_name)).convert('RGB')
+            img = Image.open(os.path.join(Constants.OUTPUT_PATH, label, image_name)).convert('RGB') #this is already a rgb value
             arr = np.array(img)
             output.append(arr)
             labels.append(label)
