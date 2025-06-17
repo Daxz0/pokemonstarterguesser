@@ -39,3 +39,13 @@ print("test")
 #   return data, labels
 
 # data, labels = load_data()
+
+X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, random_state=1)
+
+p_model = MLPClassifier(hidden_layer_sizes=(3, 4))
+for i in [(100, 100, 100), ]:
+  p_model = MLPClassifier(hidden_layer_sizes=(i), random_state=1, max_iter=1000000)
+  p_model.fit(X_train, y_train)
+  y_pred = nnet_model.predict(X_test)
+  print("Accuracy: ", accuracy_score(y_test, y_pred))
+
