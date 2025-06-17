@@ -1,4 +1,5 @@
 #libraries
+import constants
 import pandas as pd
 import random
 import os
@@ -22,33 +23,37 @@ from keras.layers import Dense, Conv2D, InputLayer
 from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
 
-## CONFIG
-INPUT_PATH = "data/pikachu/"
-OUTPUT_PATH = "test_output/"
 
+all_paths = os.listdir(constants.INPUT_PATH)
 
-def lower_image_resolution(interations: int, resolution: tuple, images_path=INPUT_PATH) -> None:
-    for fileName in zip(range(interations),os.listdir(images_path)):
-        # print(os.path.join(images_path,str(fileName[1])))
+def lower_image_resolution(interations: int, resolution: tuple, images_path: str, label: str) -> None:
+    all_paths = os.listdir(images_path)
+    if interations < 0:
+        interations = len(all_paths)
+    for fileName in zip(range(interations),all_paths):
         img = Image.open(str(os.path.join(images_path,str(fileName[1]))))
-        resized_image = img.resize(resolution, Image.LANCZOS)
-        resized_image.save(os.path.join(OUTPUT_PATH,str(fileName[1])))
+        parent_path = os.path.join(constants.OUTPUT_PATH,label)
+        final_path = os.path.join(parent_path,str(fileName[1]))
         
-lower_image_resolution(interations=10, resolution=(32,32))
+        if os.path.exists(final_path):
+            if img.size == resolution:
+                print(f"Skipped Interation x{fileName[0]}. [Same Res]")
+                continue
+        
+        
+        os.makedirs(parent_path, exist_ok=True)
+        
+        resized_image = img.resize(resolution, Image.LANCZOS).convert('RGB')
+        resized_image.save(final_path)
+    print(f"Conversion Complete For Label: {label}")
 
-# cnn = CNNClassifier(num_epochs, layers, dropout)
+
+def lower_all_images() -> bool:
+    if len(os.listdir(constants.OUTPUT_PATH)) > 0:
+        return False
+    for folderPath in os.listdir(constants.INPUT_PATH):
+        lower_image_resolution(interations=-1, resolution=(32,32), images_path=os.path.join(constants.INPUT_PATH,folderPath),label=folderPath)
+    return True
 
 
 
-# def load_data():
-#   !wget -q --show-progress -O cifar_data https://storage.googleapis.com/inspirit-ai-data-bucket-1/Data/AI%20Scholars/Sessions%201%20-%205/Session%204%20_%205%20-%20Neural%20Networks%20_%20CNN/dogs_v_roads
-
-#   import pickle
-#   data_dict = pickle.load(open( "cifar_data", "rb" ));
-
-#   data   = data_dict['data']
-#   labels = data_dict['labels']
-
-#   return data, labels
-
-# data, labels = load_data()
