@@ -54,6 +54,3 @@ def lower_all_images() -> bool:
     for folderPath in os.listdir(constants.INPUT_PATH):
         lower_image_resolution(interations=-1, resolution=(32,32), images_path=os.path.join(constants.INPUT_PATH,folderPath),label=folderPath)
     return True
-
-
-
