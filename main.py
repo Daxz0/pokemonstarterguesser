@@ -24,7 +24,6 @@ from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
 
 
-all_paths = os.listdir(Constants.INPUT_PATH)
 
 def lower_image_resolution(interations: int, resolution: tuple, images_path: str, label: str) -> None:
     all_paths = os.listdir(images_path)
@@ -48,13 +47,36 @@ def lower_image_resolution(interations: int, resolution: tuple, images_path: str
     print(f"Conversion Complete For Label: {label}")
 
 
-def image_to_num(input_path=Constants.INPUT_PATH):
-    
-    
-
-def convert_all_images() -> bool:
+def lower_all_images() -> bool:
     if len(os.listdir(Constants.OUTPUT_PATH)) > 0:
         return False
     for folderPath in os.listdir(Constants.INPUT_PATH):
         lower_image_resolution(interations=-1, resolution=(32,32), images_path=os.path.join(Constants.INPUT_PATH,folderPath),label=folderPath)
     return True
+
+
+def image_to_num():
+    
+    images_list = os.listdir(Constants.OUTPUT_PATH)
+    
+    output = []
+    labels = []
+    
+    for label in images_list:
+        for image in os.listdir(os.path.join(Constants.OUTPUT_PATH,label)):
+            # print(os.path.join(Constants.OUTPUT_PATH,label,image))
+            img = Image.open(os.path.join(Constants.OUTPUT_PATH,label,image)).convert('RGB')
+            width, height = img.size
+            rgb_values = [img.getpixel((x, y)) for y in range(height) for x in range(width)]
+            output.append(rgb_values)
+            labels.append(label)
+    return output, labels
+
+# lower_all_images()
+
+
+image_array = image_to_num()
+print(image_array)
+    
+            
+    
