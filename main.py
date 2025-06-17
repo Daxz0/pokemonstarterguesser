@@ -23,19 +23,18 @@ from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
 
 ## CONFIG
-INPUT_PATH = "input/"
+INPUT_PATH = "data/pikachu/"
 OUTPUT_PATH = "test_output/"
 
-print(os.listdir(INPUT_PATH))
 
-def lower_image_resolution(images_path=INPUT_PATH):
-    for fileName in os.listdir(images_path):
-        print(fileName)
-        img = Image.open(images_path+fileName)
-        resized_image = img.resize((224,224), Image.LANCZOS)
-        resized_image.save(OUTPUT_PATH)
+def lower_image_resolution(interations: int, resolution: tuple, images_path=INPUT_PATH) -> None:
+    for fileName in zip(range(interations),os.listdir(images_path)):
+        # print(os.path.join(images_path,str(fileName[1])))
+        img = Image.open(str(os.path.join(images_path,str(fileName[1]))))
+        resized_image = img.resize(resolution, Image.LANCZOS)
+        resized_image.save(os.path.join(OUTPUT_PATH,str(fileName[1])))
         
-lower_image_resolution()
+lower_image_resolution(interations=10, resolution=(32,32))
 
 # cnn = CNNClassifier(num_epochs, layers, dropout)
 
