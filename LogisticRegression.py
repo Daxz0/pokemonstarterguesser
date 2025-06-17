@@ -3,6 +3,10 @@ import Constants
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+
 
 class LogisticRegression:
     def __init__(self, filename, x_label, y_label, test_size=Constants.TEST_SPLIT, random_state=Constants.RANDOM_STATE):
@@ -31,3 +35,9 @@ class LogisticRegression:
         y_pred = model.predict(X_test)
 
         return accuracy_score(y_test, y_pred)
+    
+    def generate_confusion_matrix(self, y_true, y_pred):
+        cnf_matrix = confusion_matrix(y_true, y_pred, labels = [0, 1, 2, 3, 4])
+        disp = ConfusionMatrixDisplay(confusion_matrix=cnf_matrix, display_labels=['0 (Pikachu)', '1 (Charmander)', '2 (Bulbasaur)', '3 (Squirtle)'])
+        disp.plot (cmap='Blues')
+        plt.show()
