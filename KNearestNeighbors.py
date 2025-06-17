@@ -42,4 +42,4 @@ class KNearestNeighbors:
                 max_accuracy_score = accuracy_score
                 best_neighbors_value = neighbors
 
-        return max_accuracy_score, neighbors
+        return max_accuracy_score, best_neighbors_value
