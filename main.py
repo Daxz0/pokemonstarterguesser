@@ -43,6 +43,16 @@ print("test")
 # data, labels = load_data()
 
 #Stuff for MLP training
+
+#class MLPModel:
+    #def __init__(self, hidden_layers=(100, 100, 100), max_iter=1000, test_size=0.2, random_state=1):
+        #self.hidden_layers = hidden_layers
+        #self.max_iter = max_iter
+        #self.test_size = test_size
+        #self.random_state = random_state
+        #self.scaler = StandardScaler()
+        #self.model = None
+
 #X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, random_state=1)
 
 #p_model = MLPClassifier(hidden_layer_sizes=(3, 4))
