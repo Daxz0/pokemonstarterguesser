@@ -1,6 +1,7 @@
 #libraries
 import pandas as pd
 import random
+import os
 import time
 from collections import Counter
 from PIL import Image
@@ -21,10 +22,23 @@ from keras.layers import Dense, Conv2D, InputLayer
 from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
 
+## CONFIG
+INPUT_PATH = "input/"
+OUTPUT_PATH = "test_output/"
+
+print(os.listdir(INPUT_PATH))
+
+def lower_image_resolution(images_path=INPUT_PATH):
+    for fileName in os.listdir(images_path):
+        print(fileName)
+        img = Image.open(images_path+fileName)
+        resized_image = img.resize((224,224), Image.LANCZOS)
+        resized_image.save(OUTPUT_PATH)
+        
+lower_image_resolution()
 
 # cnn = CNNClassifier(num_epochs, layers, dropout)
 
-print("test")
 
 
 # def load_data():
