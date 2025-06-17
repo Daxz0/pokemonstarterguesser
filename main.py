@@ -1,5 +1,5 @@
 #libraries
-import constants
+import Constants
 import pandas as pd
 import random
 import os
@@ -24,7 +24,7 @@ from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
 
 
-all_paths = os.listdir(constants.INPUT_PATH)
+all_paths = os.listdir(Constants.INPUT_PATH)
 
 def lower_image_resolution(interations: int, resolution: tuple, images_path: str, label: str) -> None:
     all_paths = os.listdir(images_path)
@@ -32,7 +32,7 @@ def lower_image_resolution(interations: int, resolution: tuple, images_path: str
         interations = len(all_paths)
     for fileName in zip(range(interations),all_paths):
         img = Image.open(str(os.path.join(images_path,str(fileName[1]))))
-        parent_path = os.path.join(constants.OUTPUT_PATH,label)
+        parent_path = os.path.join(Constants.OUTPUT_PATH,label)
         final_path = os.path.join(parent_path,str(fileName[1]))
         
         if os.path.exists(final_path):
@@ -48,9 +48,13 @@ def lower_image_resolution(interations: int, resolution: tuple, images_path: str
     print(f"Conversion Complete For Label: {label}")
 
 
-def lower_all_images() -> bool:
-    if len(os.listdir(constants.OUTPUT_PATH)) > 0:
+def image_to_num(input_path=Constants.INPUT_PATH):
+    
+    
+
+def convert_all_images() -> bool:
+    if len(os.listdir(Constants.OUTPUT_PATH)) > 0:
         return False
-    for folderPath in os.listdir(constants.INPUT_PATH):
-        lower_image_resolution(interations=-1, resolution=(32,32), images_path=os.path.join(constants.INPUT_PATH,folderPath),label=folderPath)
+    for folderPath in os.listdir(Constants.INPUT_PATH):
+        lower_image_resolution(interations=-1, resolution=(32,32), images_path=os.path.join(Constants.INPUT_PATH,folderPath),label=folderPath)
     return True
