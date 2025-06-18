@@ -10,7 +10,7 @@ from PIL import Image
 import numpy as np
 import pandas as pd
 
-from init import create_final_data
+from init import load_data
 
 # import seaborn as sns
 # import matplotlib.pyplot as plt
@@ -27,8 +27,4 @@ from init import create_final_data
 # from keras.utils import to_categorical
 
 
-create_final_data()
-
-# loaded = np.load("pokemon_data.npz")
-# images = loaded['images']
-# labels = loaded['labels']
+images,labels = load_data()

@@ -8,12 +8,12 @@ import numpy as np
 import pandas as pd
 
 
-def lower_image_resolution(interations: int, resolution: tuple, images_path: str, label: str) -> None:
+def lower_image_resolution(iterations: int, resolution: tuple, images_path: str, label: str) -> None:
     print(f"Converting For Label: {label}")
     all_paths = os.listdir(images_path)
-    if interations < 0:
-        interations = len(all_paths)
-    for fileName in zip(range(interations),all_paths):
+    if iterations < 0:
+        iterations = len(all_paths)
+    for fileName in zip(range(iterations),all_paths):
         img = Image.open(str(os.path.join(images_path,str(fileName[1]))))
         parent_path = os.path.join(Constants.OUTPUT_PATH,label)
         final_path = os.path.join(parent_path,str(fileName[1]))
@@ -33,7 +33,7 @@ def lower_image_resolution(interations: int, resolution: tuple, images_path: str
 
 def lower_all_images():
     for folderPath in os.listdir(Constants.INPUT_PATH):
-        lower_image_resolution(interations=-1, resolution=(32,32), images_path=os.path.join(Constants.INPUT_PATH,folderPath),label=folderPath)
+        lower_image_resolution(iterations=-1, resolution=(32,32), images_path=os.path.join(Constants.INPUT_PATH,folderPath),label=folderPath)
 
 
 def image_to_num():
@@ -58,6 +58,13 @@ def create_final_data():
 
     print("Data file successfully created.")
 
-# loaded = np.load("pokemon_data.npz")
-# images = loaded['images']
-# labels = loaded['labels']
+
+def load_data():
+    if not os.path.exists("pokemon_data.npz"):
+        create_final_data()
+    loaded = np.load("pokemon_data.npz")
+    images = loaded['images']
+    labels = loaded['labels']
+    return images,labels
+    
+    
