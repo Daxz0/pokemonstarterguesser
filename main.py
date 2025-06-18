@@ -10,7 +10,8 @@ from PIL import Image
 import numpy as np
 import pandas as pd
 
-from init import load_data
+from KNearestNeighbors import KNearestNeighbors
+import init
 
 # import seaborn as sns
 # import matplotlib.pyplot as plt
@@ -27,4 +28,23 @@ from init import load_data
 # from keras.utils import to_categorical
 
 
-images,labels = load_data()
+
+def save_knn_model():
+
+
+    x_data, y_data = init.load_data()
+
+    model = KNearestNeighbors(x_data, y_data)
+
+    best_score, best_model = model.find_highest_accuracy_score()
+    print("Best accuracy:", best_score)
+
+    neighbors_used = best_model.n_neighbors # type: ignore
+    accuracy, trained_model = model.k_nearest_neighbors_algorithm(neighbors_used)
+
+    model.save_model(trained_model)
+
+    model.generate_confusion_matrix()
+
+
+images,labels = init.load_data()
