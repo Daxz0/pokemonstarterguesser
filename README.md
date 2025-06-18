@@ -22,4 +22,4 @@ This model will be able to recognize the following starter pokemon:
 
 [![](https://github.com/daxz0.png?size=50)](https://github.com/daxz0)
 [![](https://github.com/anishanup.png?size=50)](https://github.com/anishanup)
-[![](https://github.com/Tfu1234.png?size=50)](https://github.com/Tfu1234)
+<!-- [![](https://github.com/Tfu1234.png?size=50)](https://github.com/Tfu1234) -->
