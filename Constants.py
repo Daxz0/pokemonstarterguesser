@@ -2,6 +2,7 @@ RESOLUTION = (32,32)
 MAX_NEAREST_NEIGHBORS = 21
 TEST_SPLIT = 0.2
 RANDOM_STATE = 1
+TRAINED_MODELS_OUTPUT = "trained_models"
 DATA_PATH = "data"
 INPUT_PATH = "input"
 OUTPUT_PATH = "converted_data"
