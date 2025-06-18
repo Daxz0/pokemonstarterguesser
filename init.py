@@ -58,6 +58,13 @@ def create_final_data():
 
     print("Data file successfully created.")
 
-# loaded = np.load("pokemon_data.npz")
-# images = loaded['images']
-# labels = loaded['labels']
+
+def load_data():
+    if not os.path.exists("pokemon_data.npz"):
+        create_final_data()
+    loaded = np.load("pokemon_data.npz")
+    images = loaded['images']
+    labels = loaded['labels']
+    return images,labels
+    
+    
