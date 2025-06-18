@@ -1,5 +1,7 @@
+RESOLUTION = (32,32)
 MAX_NEAREST_NEIGHBORS = 21
 TEST_SPLIT = 0.2
 RANDOM_STATE = 1
-INPUT_PATH = "data"
+DATA_PATH = "data"
+INPUT_PATH = "input"
 OUTPUT_PATH = "converted_data"
