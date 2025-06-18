@@ -18,6 +18,7 @@ This model will be able to recognize the following starter pokemon:
 - matplotlib
 - seaborn
 
+### Contributors
 
 [![](https://github.com/daxz0.png?size=50)](https://github.com/daxz0)
 [![](https://github.com/anishanup.png?size=50)](https://github.com/anishanup)
