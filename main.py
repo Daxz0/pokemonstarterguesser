@@ -1,5 +1,6 @@
 #libraries
 import Constants
+import init
 import pandas as pd
 import random
 import os
@@ -12,6 +13,7 @@ import pandas as pd
 
 from KNearestNeighbors import KNearestNeighbors
 import init
+
 
 # import seaborn as sns
 # import matplotlib.pyplot as plt
@@ -27,10 +29,16 @@ import init
 # from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 # from keras.utils import to_categorical
 
+def input_handler(model: type):
+    init.lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION,
+                           images_path=Constants.INPUT_PATH, output_path=Constants.INPUT_PATH, label="Input")
+    data = init.load_images_from_path(Constants.INPUT_PATH, labeled=False)
+
+    model.find_highest_accuracy_score()
+    return model.get_y_pred()
 
 
 def save_knn_model():
-
 
     x_data, y_data = init.load_data()
 
