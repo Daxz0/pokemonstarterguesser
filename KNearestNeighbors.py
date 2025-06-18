@@ -51,16 +51,18 @@ class KNearestNeighbors:
         return KNeighborsClassifier(n_neighbors=neighbors)
 
     def save_model(self, model, filename="KNN_MODEL.pkl"):
+        path = os.path.join(Constants.TRAINED_MODELS_OUTPUT,filename)
         if model is None:
             model = self.model
         if model is not None:
-            joblib.dump(model, filename)
+            joblib.dump(model, path)
         else:
             raise ValueError("No model to save.")
 
     def load_model(self, filename="KNN_MODEL.pkl", fallback_neighbors=Constants.MAX_NEAREST_NEIGHBORS):
-        if os.path.exists(filename):
-            return joblib.load(filename)
+        path = os.path.join(Constants.TRAINED_MODELS_OUTPUT,filename)
+        if os.path.exists(path):
+            return joblib.load(path)
         return self.create_model(neighbors=fallback_neighbors)
 
     def k_nearest_neighbors_algorithm(self, neighbors, x=None, y=None):
