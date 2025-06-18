@@ -1,5 +1,6 @@
 #libraries
 import Constants
+import init
 import pandas as pd
 import random
 import os
@@ -10,7 +11,7 @@ from PIL import Image
 import numpy as np
 import pandas as pd
 
-from init import load_data
+
 
 # import seaborn as sns
 # import matplotlib.pyplot as plt
@@ -26,5 +27,14 @@ from init import load_data
 # from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 # from keras.utils import to_categorical
 
+def input_handler(model: type):
+    init.lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION,
+                           images_path=Constants.INPUT_PATH, output_path=Constants.INPUT_PATH, label="Input")
 
-images,labels = load_data()
+    data = init.load_images_from_path(Constants.INPUT_PATH, labeled=False)
+
+    model.find_highest_accuracy_score()
+    return model.get_y_pred()
+
+
+images,labels = init.load_data()
