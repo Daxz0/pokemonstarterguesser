@@ -13,6 +13,7 @@ import pandas as pd
 
 from KNearestNeighbors import KNearestNeighbors
 import init
+import joblib
 
 
 # import seaborn as sns
@@ -29,13 +30,23 @@ import init
 # from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 # from keras.utils import to_categorical
 
-def input_handler(model: type):
-    init.lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION,
-                           images_path=Constants.INPUT_PATH, output_path=Constants.INPUT_PATH, label="Input")
-    data = init.load_images_from_path(Constants.INPUT_PATH, labeled=False)
+def input_handler(knn_model):
+    # converted_path = os.path.join(Constants.INPUT_PATH,"converted")
+    converted_path = Constants.INPUT_PATH
+    init.lower_image_resolution(
+        iterations=-1,
+        resolution=Constants.RESOLUTION,
+        images_path=Constants.INPUT_PATH,
+        output_path=converted_path,
+        label=None
+    )
 
-    model.find_highest_accuracy_score()
-    return model.get_y_pred()
+    data = init.load_images_from_path(converted_path, labeled=False)
+    data = np.reshape(data, (len(data), -1))
+
+    predictions = knn_model.predict(data)
+    print("Predictions:", predictions)
+    return predictions
 
 
 def save_knn_model():
@@ -43,16 +54,29 @@ def save_knn_model():
     x_data, y_data = init.load_data()
 
     model = KNearestNeighbors(x_data, y_data)
+    
 
     best_score, best_model = model.find_highest_accuracy_score()
-    print("Best accuracy:", best_score)
 
     neighbors_used = best_model.n_neighbors # type: ignore
-    accuracy, trained_model = model.k_nearest_neighbors_algorithm(neighbors_used)
+    score,trained_model = model.k_nearest_neighbors_algorithm(neighbors_used)
 
     model.save_model(trained_model)
 
-    model.generate_confusion_matrix()
+    
+def load_knn_model(filename="KNN_MODEL.pkl"):
+    path = os.path.join(Constants.TRAINED_MODELS_OUTPUT, filename)
+    if os.path.exists(path):
+        print(f"Loading trained model from {path}")
+        return joblib.load(path)
+    else:
+        print("Model not found. Training and saving a new one.")
+        save_knn_model()
+        return joblib.load(path)
 
 
-images,labels = init.load_data()
+
+# images,labels = init.load_data()
+model = load_knn_model()
+if model:
+    input_handler(model)

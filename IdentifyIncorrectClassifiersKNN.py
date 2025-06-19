@@ -6,10 +6,10 @@ import numpy as np
 from PIL import Image
 
 x_data, y_data = init.load_data()
-model = KNearestNeighbors(x_data, y_data)
-model.find_highest_accuracy_score()
+# model = KNearestNeighbors(x_data, y_data)
+# model.find_highest_accuracy_score()
 
-def identify_incorrect_classifications():
+def identify_incorrect_classifications(model: type):
     y_pred = model.get_y_pred()
     x_test = model.get_X_test()
     y_test = model.get_Y_test()
@@ -64,6 +64,3 @@ def display_incorrect_classifications(filename):
     plt.subplots_adjust(wspace=0.3, hspace=0.8, bottom=0.05)
     plt.savefig("all_images.png", dpi=150)
     plt.show()
-
-
-display_incorrect_classifications(identify_incorrect_classifications())

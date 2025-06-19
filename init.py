@@ -8,27 +8,43 @@ import numpy as np
 import pandas as pd
 
 
-def lower_image_resolution(iterations: int, resolution: tuple, images_path: str, output_path: str, label: str) -> None:
-    print(f"Converting For Label: {label}")
+def lower_image_resolution(
+    iterations: int,
+    resolution: tuple,
+    images_path: str,
+    output_path: str,
+    label) -> None:
+    
+    is_labeled = label is not None
+    target_path = os.path.join(output_path, label) if is_labeled else output_path
+
+    os.makedirs(target_path, exist_ok=True)
+
+    print(f"Converting {'Label: ' + label if is_labeled else 'Unlabeled Images'}")
+
     all_paths = os.listdir(images_path)
     if iterations < 0:
         iterations = len(all_paths)
-    for fileName in zip(range(iterations),all_paths):
-        img = Image.open(str(os.path.join(images_path,str(fileName[1]))))
-        parent_path = os.path.join(output_path,label)
-        final_path = os.path.join(parent_path,str(fileName[1]))
-        
-        if os.path.exists(final_path):
-            if img.size == resolution:
-                print(f"Skipped Interation x{fileName[0]}. [Same Res]")
-                continue
-        
-        
-        os.makedirs(parent_path, exist_ok=True)
-        
-        resized_image = img.resize(resolution, Image.LANCZOS).convert('RGB') # type: ignore
-        resized_image.save(final_path)
-    print(f"Conversion Complete For Label: {label}")
+
+    for idx, file_name in zip(range(iterations), all_paths):
+        input_image_path = os.path.join(images_path, file_name)
+        output_image_path = os.path.join(target_path, file_name)
+
+        try:
+            img = Image.open(input_image_path).convert("RGB")
+        except Exception as e:
+            print(f"Skipping {file_name}: {e}")
+            continue
+
+        if os.path.exists(output_image_path) and img.size == resolution:
+            print(f"Skipped Iteration x{idx}. [Same Res]")
+            continue
+
+        resized_image = img.resize(resolution, Image.LANCZOS)  # type: ignore
+        resized_image.save(output_image_path)
+
+    print(f"Conversion Complete for {'Label: ' + label if is_labeled else 'Unlabeled'}")
+
 
 
 def lower_all_images():
