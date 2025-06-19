@@ -75,6 +75,7 @@ def image_encoder(images_path: str, labeled: bool = False, single: bool = False)
         if single:
             img = Image.open(images_path).convert('RGB')
             arr = np.array(img)
+            output.append(arr)
             return np.array(output)
             
         for image_name in os.listdir(images_path):

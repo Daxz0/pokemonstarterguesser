@@ -41,7 +41,7 @@ def input_handler(knn_model):
         label=None
     )
 
-    data = init.load_images_from_path(converted_path, labeled=False)
+    data = init.image_encoder(converted_path, labeled=False)
     data = np.reshape(data, (len(data), -1))
 
     predictions = knn_model.predict(data)
