@@ -8,6 +8,12 @@ This model will be able to recognize the following starter pokemon:
 - Squirtle
 - Pikachu
 
+## Available Models
+
+- K-NEAREST NEIGHBORS
+- Convolutional Neural Network (CNN)
+
+
 ## Dependencies
 
 - pandas
