@@ -28,30 +28,20 @@ from sklearn.preprocessing import LabelEncoder
 from keras.utils import to_categorical
 
 
-data, labels = init.load_data()
-X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.1, random_state=None)
-
-label_encoder = LabelEncoder()
-y_train_encoded = label_encoder.fit_transform(y_train)
-y_test_encoded = label_encoder.transform(y_test)
-
-y_train_onehot = to_categorical(y_train_encoded)
-y_test_onehot = to_categorical(y_test_encoded)
-
-
 class ConvolutionNeuralNetwork:
     
     def __init__(self, num_epochs=30, layers=4, dropout=0.5):
         self.num_epochs = num_epochs
         self.layers = layers
         self.dropout = dropout
+        self.label_encoder = LabelEncoder()
         self.model = self.build_model()
 
     def build_model(self):
         model = Sequential()
         model.add(Reshape((32, 32, 3)))
 
-        for i in range(self.layers):
+        for _ in range(self.layers):
             model.add(Conv2D(filters=32, kernel_size=(3, 3), padding='same'))
             model.add(Activation('relu'))
         
@@ -71,31 +61,30 @@ class ConvolutionNeuralNetwork:
         model.add(Dense(512))
         model.add(Activation('relu'))
         model.add(Dropout(self.dropout))
-        model.add(Dense(len(np.unique(labels)))) #dense for every label we have
+        model.add(Dense(len(np.unique(Constants.LABELS_COUNT))))  # Output layer
         model.add(Activation('softmax'))
+
         opt = keras.optimizers.RMSprop(learning_rate=0.0001)
         model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
         return model
-    
-    def fit(self, *args, **kwargs):
-        return self.model.fit(*args, epochs=self.num_epochs, batch_size=10, verbose=2, **kwargs)
-    
-    def test(self, *args, **kwargs):
-        predictions = self.model.predict(*args, **kwargs)
-        return predictions
-    
-    def score(self, X, y):
-        predictions = self.test(X)
-        return accuracy_score(y, predictions)
-    
 
+    def preprocess_data(self, y_train, y_test):
+        y_train_encoded = self.label_encoder.fit_transform(y_train)
+        y_test_encoded = self.label_encoder.transform(y_test)
+        y_train_onehot = to_categorical(y_train_encoded)
+        y_test_onehot = to_categorical(y_test_encoded)
+        return y_train_encoded, y_test_encoded, y_train_onehot, y_test_onehot
 
-cnn = ConvolutionNeuralNetwork(num_epochs=50, layers=5)
-cnn.fit(X_train, y_train_onehot)
-
-y_pred_probs = cnn.test(X_test)
-y_pred_labels = np.argmax(y_pred_probs, axis=1)
-
-accuracy = accuracy_score(y_test_encoded, y_pred_labels)
-print(f"Test Accuracy: {accuracy:.2f}")
+    def fit(self, X, y):
+        
+        self.preprocess_data()
+        return self.model.fit(X, y, epochs=self.num_epochs, batch_size=10, verbose=2)
+    
+    def test(self, X):
+        return self.model.predict(X)
+    
+    def score(self, X, y_true_encoded):
+        y_pred_probs = self.test(X)
+        y_pred_labels = np.argmax(y_pred_probs, axis=1)
+        return accuracy_score(y_true_encoded, y_pred_labels)

@@ -57,7 +57,7 @@ def prepare_dataset_resolution():
         lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION, images_path=os.path.join(Constants.DATA_PATH,folderPath),label=folderPath,output_path=Constants.OUTPUT_PATH)
 
 
-def load_images_from_path(images_path: str, labeled: bool = False, single: bool = False):
+def image_encoder(images_path: str, labeled: bool = False, single: bool = False):
     output = []
     labels = []
 
@@ -88,7 +88,7 @@ def prepare_dataset_image_to_numerical(images_path: str):
     if len(os.listdir(images_path)) == 0:
         prepare_dataset_resolution()
 
-    return load_images_from_path(images_path, labeled=True)
+    return image_encoder(images_path, labeled=True)
 
 def create_final_data():
     data,labels = prepare_dataset_image_to_numerical(images_path=Constants.OUTPUT_PATH)
