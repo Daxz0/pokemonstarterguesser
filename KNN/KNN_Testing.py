@@ -19,10 +19,10 @@ import joblib
 # import seaborn as sns
 # import matplotlib.pyplot as plt
 
-# from sklearn.neural_network import MLPClassifier
-# from sklearn.neighbors import KNeighborsClassifier
-# from sklearn import model_selection
-# from sklearn.metrics import accuracy_score
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import model_selection
+from sklearn.metrics import accuracy_score
 
 # import tensorflow.keras as keras
 # from keras.models import Sequential

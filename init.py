@@ -13,6 +13,7 @@ def lower_image_resolution(
     resolution: tuple,
     images_path: str,
     output_path: str,
+    # single: bool,
     label) -> None:
     
     is_labeled = label is not None
@@ -22,9 +23,11 @@ def lower_image_resolution(
 
     print(f"Converting {'Label: ' + label if is_labeled else 'Unlabeled Images'}")
 
+    
     all_paths = os.listdir(images_path)
     if iterations < 0:
         iterations = len(all_paths)
+    
 
     for idx, file_name in zip(range(iterations), all_paths):
         input_image_path = os.path.join(images_path, file_name)
@@ -52,7 +55,7 @@ def lower_all_images():
         lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION, images_path=os.path.join(Constants.DATA_PATH,folderPath),label=folderPath,output_path=Constants.OUTPUT_PATH)
 
 
-def load_images_from_path(images_path: str, labeled: bool = False):
+def load_images_from_path(images_path: str, labeled: bool = False, single: bool = False):
     output = []
     labels = []
 
@@ -67,6 +70,11 @@ def load_images_from_path(images_path: str, labeled: bool = False):
                 labels.append(label)
         return np.array(output), np.array(labels)
     else:
+        if single:
+            img = Image.open(images_path).convert('RGB')
+            arr = np.array(img)
+            return np.array(output)
+            
         for image_name in os.listdir(images_path):
             img = Image.open(os.path.join(images_path, image_name)).convert('RGB')
             arr = np.array(img)
