@@ -52,7 +52,7 @@ def lower_image_resolution(
 
 
 
-def lower_all_images():
+def prepare_dataset_resolution():
     for folderPath in os.listdir(Constants.DATA_PATH):
         lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION, images_path=os.path.join(Constants.DATA_PATH,folderPath),label=folderPath,output_path=Constants.OUTPUT_PATH)
 
@@ -84,14 +84,14 @@ def load_images_from_path(images_path: str, labeled: bool = False, single: bool 
         return np.array(output)
 
 
-def image_to_num(images_path: str):
+def prepare_dataset_image_to_numerical(images_path: str):
     if len(os.listdir(images_path)) == 0:
-        lower_all_images()
+        prepare_dataset_resolution()
 
     return load_images_from_path(images_path, labeled=True)
 
 def create_final_data():
-    data,labels = image_to_num(images_path=Constants.OUTPUT_PATH)
+    data,labels = prepare_dataset_image_to_numerical(images_path=Constants.OUTPUT_PATH)
     np.savez("pokemon_data.npz", images=data, labels=labels)
 
     print("Data file successfully created.")
