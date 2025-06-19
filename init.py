@@ -13,24 +13,26 @@ def lower_image_resolution(
     resolution: tuple,
     images_path: str,
     output_path: str,
-    # single: bool,
-    label) -> None:
+    single: bool= False,
+    label=None) -> None:
     
     is_labeled = label is not None
     target_path = os.path.join(output_path, label) if is_labeled else output_path
-
     os.makedirs(target_path, exist_ok=True)
 
     print(f"Converting {'Label: ' + label if is_labeled else 'Unlabeled Images'}")
 
-    
-    all_paths = os.listdir(images_path)
-    if iterations < 0:
-        iterations = len(all_paths)
-    
+    if single:
+        file_list = [os.path.basename(images_path)]
+        image_paths = [images_path]
+    else:
+        file_list = os.listdir(images_path)
+        if iterations < 0:
+            iterations = len(file_list)
+        file_list = file_list[:iterations]
+        image_paths = [os.path.join(images_path, f) for f in file_list]
 
-    for idx, file_name in zip(range(iterations), all_paths):
-        input_image_path = os.path.join(images_path, file_name)
+    for idx, (file_name, input_image_path) in enumerate(zip(file_list, image_paths)):
         output_image_path = os.path.join(target_path, file_name)
 
         try:
@@ -43,7 +45,7 @@ def lower_image_resolution(
             print(f"Skipped Iteration x{idx}. [Same Res]")
             continue
 
-        resized_image = img.resize(resolution, Image.LANCZOS)  # type: ignore
+        resized_image = img.resize(resolution, Image.LANCZOS) # type: ignore
         resized_image.save(output_image_path)
 
     print(f"Conversion Complete for {'Label: ' + label if is_labeled else 'Unlabeled'}")
