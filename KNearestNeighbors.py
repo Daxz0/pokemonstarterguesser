@@ -19,7 +19,7 @@ class KNearestNeighbors:
             self.x = x_data
             self.y = y_data
         else:
-            raise ValueError("Insufficient input: Provide either file with labels or x_data and y_data.")
+            raise ValueError("Insufficient input: No x_data or y_data.")
 
         self._init_standard_properties(test_size, random_state)
 
@@ -57,12 +57,14 @@ class KNearestNeighbors:
         if model is not None:
             joblib.dump(model, path)
         else:
-            raise ValueError("No model to save.")
+            raise ValueError("No model exists to save.")
 
     def load_model(self, filename="KNN_MODEL.pkl", fallback_neighbors=Constants.MAX_NEAREST_NEIGHBORS):
-        path = os.path.join(Constants.TRAINED_MODELS_OUTPUT,filename)
+        path = os.path.join(Constants.TRAINED_MODELS_OUTPUT, filename)
         if os.path.exists(path):
+            print(f"Model loaded from: {path}")
             return joblib.load(path)
+        
         return self.create_model(neighbors=fallback_neighbors)
 
     def k_nearest_neighbors_algorithm(self, neighbors, x=None, y=None):
@@ -75,11 +77,12 @@ class KNearestNeighbors:
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
             x, y, test_size=self.test_size, random_state=self.random_state)
 
-        self.model = self.load_model(fallback_neighbors=neighbors)
+        self.model = self.create_model(neighbors)
         self.model.fit(self.X_train, self.y_train)
 
         self.y_pred = self.model.predict(self.X_test)
         return accuracy_score(self.y_test, self.y_pred), self.model
+
 
     def find_highest_accuracy_score(self, max_neighbors=Constants.MAX_NEAREST_NEIGHBORS):
         max_accuracy_score = 0
