@@ -1,4 +1,4 @@
-from KNearestNeighbors import *
+from KNN.KNearestNeighbors import *
 import init
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
