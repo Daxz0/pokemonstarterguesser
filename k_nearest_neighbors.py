@@ -1,6 +1,6 @@
 import Constants
-import os
-import pandas as pd
+from PIL import Image
+import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import init
@@ -23,16 +23,27 @@ class KNearestNeighbors:
         self.random_state = random_state
         self.model = None
 
+        self._find_most_optimal_solution()
+
+    def save_model(self, filename):
+        with open(filename, 'wb') as file:
+            pickle.dump(self.model, file)
+        
+        print("Saved model to " + filename)
+
+    def load_model(filename):
+        with open(filename, 'rb') as file:
+            loaded_knn_model = pickle.load(file)
+
+        print("Loaded model from " + filename)
+        return loaded_knn_model
+
     def return_accuracy_score(self):
         return accuracy_score(self.y_test, self.y_pred)
 
     def predict(self, image_path):
-        image_data = init.image_encoder(images_path=image_path, single=True)
-        # image_data = init.lower_image_resolution(iterations=-1, resolution=(32, 32), images_path=image_path, output_path=image_path, single=True)
-        image_data = np.reshape(image_data, (len(image_data), -1))
-        #image_data = image_data.reshape(len(image_data), len(image_data[0]), 3)
-        #image_data = image_data
-        return self.model.predict(image_data)
+        image = self._convert_image_data(image_path)
+        return self.model.predict(image)
 
     def generate_confusion_matrix(self):
         if self.y_test is None or self.y_pred is None:
@@ -49,6 +60,16 @@ class KNearestNeighbors:
         indices = np.random.permutation(len(self.X_data))
         self.X_data = self.X_data[indices]
         self.y_data = self.y_data[indices]
+
+    def _convert_image_data(self, image_path):
+        image_data = init.image_encoder(images_path=image_path, single=True)
+        img_arr = image_data[0]  # format: (H, W, 3)
+
+        img = Image.fromarray(img_arr).convert('RGB')
+        img = img.resize((32, 32))
+        flat = np.array(img).flatten().reshape(1, -1)  # format: (1, 3072)
+
+        return flat
 
     def _build_model(self, neighbors):
         self._shuffle_data()
@@ -79,4 +100,4 @@ class KNearestNeighbors:
                 max_accuracy_score = score
                 most_optimal_neighbors = neighbors
 
-        self._build_model(most_optimal_neighbors)
+        self._model_machine_learning_pipeline(most_optimal_neighbors)
