@@ -13,7 +13,6 @@ This model will be able to recognize the following starter pokemon:
 - K-NEAREST NEIGHBORS
 - Convolutional Neural Network (CNN)
 
-
 ## Dependencies
 
 - pandas

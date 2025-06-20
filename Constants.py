@@ -6,3 +6,4 @@ TRAINED_MODELS_OUTPUT = "trained_models"
 DATA_PATH = "data"
 INPUT_PATH = "input"
 OUTPUT_PATH = "converted_data"
+LABELS_COUNT = 4
