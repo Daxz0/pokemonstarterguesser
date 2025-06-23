@@ -13,7 +13,7 @@ def draw_bounding_boxes_with_knn(image_path, knn_model_path='pokemon_classifier_
     # Load image
     image = cv2.imread(image_path)
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
+ 
     # Run YOLO inference
     results = model(image_path)
     boxes = results[0].boxes.xyxy.cpu().numpy()  # (x1, y1, x2, y2)
