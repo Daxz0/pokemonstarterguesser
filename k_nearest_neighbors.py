@@ -31,6 +31,7 @@ class KNearestNeighbors:
         
         print("Saved model to " + filename)
 
+    @staticmethod
     def load_model(filename):
         with open(filename, 'rb') as file:
             loaded_knn_model = pickle.load(file)
@@ -38,7 +39,7 @@ class KNearestNeighbors:
         print("Loaded model from " + filename)
         return loaded_knn_model
 
-    def return_accuracy_score(self):
+    def get_accuracy_score(self):
         return accuracy_score(self.y_test, self.y_pred)
 
     def predict(self, image_path):
@@ -65,10 +66,10 @@ class KNearestNeighbors:
         image_data = init.image_encoder(images_path=image_path, single=True)
         img_arr = image_data[0]  # format: (H, W, 3)
 
-        img = Image.fromarray(img_arr).convert('RGB')
-        img = img.resize((32, 32))
+        img = Image.fromarray(img_arr).convert('RGB').resize((32, 32))
         flat = np.array(img).flatten().reshape(1, -1)  # format: (1, 3072)
 
+        print(flat.shape)
         return flat
 
     def _build_model(self, neighbors):
@@ -94,7 +95,7 @@ class KNearestNeighbors:
 
         for neighbors in range(1, max_neighbors, 2):
             self._model_machine_learning_pipeline(neighbors)
-            score = self.return_accuracy_score()
+            score = self.get_accuracy_score()
 
             if score > max_accuracy_score:
                 max_accuracy_score = score

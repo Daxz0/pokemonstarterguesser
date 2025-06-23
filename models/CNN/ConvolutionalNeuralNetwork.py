@@ -1,10 +1,13 @@
 #libraries
+import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+
 import Constants
 import init
 import pandas as pd
-import random
-import os
-import time
 from collections import Counter
 from PIL import Image
 
@@ -13,7 +16,6 @@ import pandas as pd
 import init
 import joblib
 
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 from sklearn.metrics import accuracy_score
@@ -40,7 +42,7 @@ class ConvolutionNeuralNetwork:
 
         
         if os.path.exists(self.model_path) and os.path.exists(self.label_path):
-            self.load()
+            self.load_model()
         else:
             self.model = self.build_model()
             self.train()
@@ -92,17 +94,17 @@ class ConvolutionNeuralNetwork:
     def train(self):
         X_train, X_test, y_train_encoded, y_test_encoded, y_train_onehot, y_test_onehot = self.load_and_preprocess()
         self.history = self.model.fit(X_train, y_train_onehot, epochs=self.num_epochs, batch_size=10, verbose=2) # type: ignore
-        accuracy = self.score(X_test, y_test_encoded)
-        self.save()
+        accuracy = self.get_accuracy_score(X_test, y_test_encoded)
+        self.save_model()
         return accuracy
 
-    def save(self, model_path=None, label_path=None):
+    def save_model(self, model_path=None, label_path=None):
         model_path = model_path or self.model_path
         label_path = label_path or self.label_path
         self.model.save(model_path) # type: ignore
         joblib.dump(self.label_encoder, label_path)
 
-    def load(self, model_path=None, label_path=None):
+    def load_model(self, model_path=None, label_path=None):
         model_path = model_path or self.model_path
         label_path = label_path or self.label_path
         self.model = keras.models.load_model(model_path)
@@ -112,7 +114,7 @@ class ConvolutionNeuralNetwork:
     def predict(self, X):
         return self.model.predict(X) # type: ignore
 
-    def score(self, X, y_true_encoded):
+    def get_accuracy_score(self, X, y_true_encoded):
         y_pred_probs = self.predict(X)
         y_pred_labels = np.argmax(y_pred_probs, axis=1)
         return accuracy_score(y_true_encoded, y_pred_labels)
