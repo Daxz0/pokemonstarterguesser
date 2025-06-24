@@ -1,6 +1,9 @@
+import sys, os
 import cv2
 import matplotlib.pyplot as plt
-from conversion_between_yolo_coordinates import*
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from src.conversion_between_yolo_coordinates import*
 
 def visualize_yolo_test_data(image_path, file_path):
     image = cv2.imread(image_path)

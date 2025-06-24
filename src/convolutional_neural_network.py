@@ -1,33 +1,21 @@
 #libraries
 import os
-import sys
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
-
-import Constants
-import init
-import pandas as pd
-from collections import Counter
-from PIL import Image
-
 import numpy as np
-import pandas as pd
-import init
 import joblib
-
-import matplotlib.pyplot as plt
 
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 import tensorflow.keras as keras # type: ignore
 from keras.models import Sequential
-from keras.layers import Dense, Conv2D, InputLayer
+from keras.layers import Dense, Conv2D
 from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
-
 from sklearn.preprocessing import LabelEncoder
-from keras.utils import to_categorical
+
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+import Constants
+from init import *
 
 class ConvolutionNeuralNetwork:
     

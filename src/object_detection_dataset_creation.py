@@ -2,9 +2,9 @@ import os
 import Constants
 import random
 import glob
-import cv2
 from PIL import Image
 from rembg import remove
+
 from conversion_between_yolo_coordinates import to_yolo_format
 
 # Load background once

@@ -1,13 +1,14 @@
-import Constants
 from PIL import Image
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
-import init
+
 from sklearn.metrics import accuracy_score, ConfusionMatrixDisplay, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 
+import src.Constants as Constants
+import src.initialize_images as initialize_images
 
 class KNearestNeighbors:
     def __init__(self, file_path, X_label, y_label, test_size=Constants.TEST_SPLIT, random_state=Constants.RANDOM_STATE):
@@ -63,7 +64,7 @@ class KNearestNeighbors:
         self.y_data = self.y_data[indices]
 
     def _convert_image_data(self, image_path):
-        image_data = init.image_encoder(images_path=image_path, single=True)
+        image_data = initialize_images.image_encoder(images_path=image_path, single=True)
         img_arr = image_data[0]  # format: (H, W, 3)
 
         img = Image.fromarray(img_arr).convert('RGB').resize((32, 32))

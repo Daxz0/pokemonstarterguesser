@@ -1,12 +1,8 @@
-#libraries
-import Constants
-import pandas as pd
 import os
-from collections import Counter
-from PIL import Image
 import numpy as np
-import pandas as pd
+from PIL import Image
 
+import src.Constants as Constants
 
 def lower_image_resolution(
     iterations: int,

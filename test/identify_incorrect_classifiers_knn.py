@@ -1,13 +1,12 @@
-from KNearestNeighbors import *
-import init
+import sys, os
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import numpy as np
-from PIL import Image
 
-x_data, y_data = init.load_data()
-# model = KNearestNeighbors(x_data, y_data)
-# model.find_highest_accuracy_score()
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from src.k_nearest_neighbors import *
+import src.initialize_images as initialize_images
+
+x_data, y_data = initialize_images.load_data()
 
 def identify_incorrect_classifications(model: type):
     y_pred = model.get_y_pred()
