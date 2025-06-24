@@ -89,7 +89,7 @@ def prepare_dataset_image_to_numerical(images_path: str):
 
 def create_final_data():
     data,labels = prepare_dataset_image_to_numerical(images_path=Constants.OUTPUT_PATH)
-    np.savez("pokemon_data.npz", images=data, labels=labels)
+    np.savez("object_classification_dataset\\pokemon_data.npz", images=data, labels=labels)
 
     print("Data file successfully created.")
 

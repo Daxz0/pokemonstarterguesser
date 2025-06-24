@@ -8,7 +8,7 @@ from rembg import remove
 from conversion_between_yolo_coordinates import to_yolo_format
 
 # Load background once
-background = Image.open("object_detection_background.jpg")
+background = Image.open("object_detection_dataset\\object_detection_background.jpg")
 #background = cv2.resize(background, (2000, 2000), interpolation=cv2.INTER_AREA)
 background = background.resize((2000, 2000))
 max_width, max_height = background.size
@@ -42,7 +42,7 @@ for counter, image_path in enumerate(files):
         combined_image = background.copy()
         combined_image.paste(image_no_bg, position, image_no_bg)  # Use mask
 
-        output_path = os.path.join('C:\\Data\\Anish\\Github\\pokemonstarterguesser\\object_detection_dataset\\images',f"{counter}.png")
+        output_path = os.path.join('object_detection_dataset\\images',f"{counter}.png")
         combined_image.save(output_path)
         print(f"Successfully saved image: {output_path}")
 
@@ -56,7 +56,7 @@ for counter, image_path in enumerate(files):
 
         # Save label
         label_filename = f"{counter}.txt"
-        label_path = os.path.join('C:\\Data\\Anish\\Github\\pokemonstarterguesser\\object_detection_dataset\\labels', label_filename)
+        label_path = os.path.join('object_detection_dataset\\labels', label_filename)
         with open(label_path, "w") as f:
             f.write(f"{0} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}\n")
         print(f"Label saved: {label_path}")

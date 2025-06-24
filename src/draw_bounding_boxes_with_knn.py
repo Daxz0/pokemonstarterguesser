@@ -37,6 +37,6 @@ def draw_bounding_boxes_with_knn(image_path, knn_model_path='trained_models\\pok
                     0.9, (0, 255, 0), 2)
 
     # Save output
-    output_path = "output_with_knn_labels.jpg"
+    output_path = "test_results\\output_with_knn_labels.jpg"
     cv2.imwrite(output_path, image)
     print(f"Saved: {output_path}")
