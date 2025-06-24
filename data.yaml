@@ -1,0 +1,5 @@
+train: C:/Data/Anish/Github/pokemonstarterguesser/object_detection_dataset/images/train
+val: C:/Data/Anish/Github/pokemonstarterguesser/object_detection_dataset/images/val
+
+nc: 4
+names: ['bulbasaur', 'charmander', 'pikachu', 'squirtle']

@@ -1,0 +1,5 @@
+from ultralytics import YOLO
+from draw_bounding_boxes_with_knn import draw_bounding_boxes_with_knn
+from k_nearest_neighbors import KNearestNeighbors
+
+draw_bounding_boxes_with_knn('test4.webp')
