@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
 
+import Constants
 import convolutional_neural_network as cnn
 
 
@@ -12,4 +13,4 @@ def predict_from_image_path(image_path):
     label = model.predict_label(arr)
     print(f"Predicted label: {label}")
 
-predict_from_image_path("unknown_pokemon.jpg")
+predict_from_image_path(Constants.TEST_FILES_PATH + "\\unknown_pokemon.jpg")

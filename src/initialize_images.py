@@ -2,7 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 
-import src.Constants as Constants
+import Constants
 
 def lower_image_resolution(
     iterations: int,
@@ -49,8 +49,8 @@ def lower_image_resolution(
 
 
 def prepare_dataset_resolution():
-    for folderPath in os.listdir(Constants.DATA_PATH):
-        lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION, images_path=os.path.join(Constants.DATA_PATH,folderPath),label=folderPath,output_path=Constants.OUTPUT_PATH)
+    for folderPath in os.listdir(Constants.CLASSIFICATION_ORIGINAL_DATA_PATH):
+        lower_image_resolution(iterations=-1, resolution=Constants.RESOLUTION, images_path=os.path.join(Constants.CLASSIFICATION_ORIGINAL_DATA_PATH, folderPath),label=folderPath,output_path=Constants.CLASSIFICATION_CONVERTED_DATA_PATH)
 
 
 def image_encoder(images_path: str, labeled: bool = False, single: bool = False):
@@ -88,16 +88,16 @@ def prepare_dataset_image_to_numerical(images_path: str):
     return image_encoder(images_path, labeled=True)
 
 def create_final_data():
-    data,labels = prepare_dataset_image_to_numerical(images_path=Constants.OUTPUT_PATH)
-    np.savez("object_classification_dataset\\pokemon_data.npz", images=data, labels=labels)
+    data,labels = prepare_dataset_image_to_numerical(images_path=Constants.CLASSIFICATION_CONVERTED_DATA_PATH)
+    np.savez(Constants.OBJECT_CLASSIFICATION_DATASET_PATH + "\\pokemon_data.npz", images=data, labels=labels)
 
     print("Data file successfully created.")
 
 
 def load_data():
-    if not os.path.exists("pokemon_data.npz"):
+    if not os.path.exists(Constants.OBJECT_CLASSIFICATION_DATASET_PATH + "\\pokemon_data.npz"):
         create_final_data()
-    loaded = np.load("pokemon_data.npz")
+    loaded = np.load(Constants.OBJECT_CLASSIFICATION_DATASET_PATH + "\\pokemon_data.npz")
     images = loaded['images']
     labels = loaded['labels']
     return images,labels

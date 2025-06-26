@@ -7,8 +7,8 @@ from sklearn.metrics import accuracy_score, ConfusionMatrixDisplay, confusion_ma
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 
-import src.Constants as Constants
-import src.initialize_images as initialize_images
+import Constants
+import initialize_images
 
 class KNearestNeighbors:
     def __init__(self, file_path, X_label, y_label, test_size=Constants.TEST_SPLIT, random_state=Constants.RANDOM_STATE):
