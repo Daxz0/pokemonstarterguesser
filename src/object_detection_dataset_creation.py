@@ -5,19 +5,20 @@ import glob
 from PIL import Image
 from rembg import remove
 
+import Constants
 from conversion_between_yolo_coordinates import to_yolo_format
 
 # Load background once
-background = Image.open("object_detection_dataset\\object_detection_background.jpg")
+background = Image.open(Constants.OBJECT_DETECTION_DATASET_PATH + "\\object_detection_background.jpg")
 #background = cv2.resize(background, (2000, 2000), interpolation=cv2.INTER_AREA)
 background = background.resize((2000, 2000))
 max_width, max_height = background.size
 
 # Get all valid image file paths
-print("Classification Data Images Path:", Constants.CLASSIFICATION_DATA_PATH)
-print("Entries:", os.listdir(Constants.CLASSIFICATION_DATA_PATH))
+print("Classification Data Images Path:", Constants.OBJECT_CLASSIFICATION_DATASET_PATH)
+print("Entries:", os.listdir(Constants.OBJECT_CLASSIFICATION_DATASET_PATH))
 
-files = glob.glob(os.path.join(Constants.CLASSIFICATION_DATA_PATH, "**", "*.*"), recursive=True)
+files = glob.glob(os.path.join(Constants.OBJECT_CLASSIFICATION_DATASET_PATH, "**", "*.*"), recursive=True)
 files = [f for f in files if os.path.isfile(f) and f.lower().endswith((".png", ".jpg", ".jpeg"))]
 
 print("Found", len(files), "image files to process.")
@@ -42,7 +43,7 @@ for counter, image_path in enumerate(files):
         combined_image = background.copy()
         combined_image.paste(image_no_bg, position, image_no_bg)  # Use mask
 
-        output_path = os.path.join('object_detection_dataset\\images',f"{counter}.png")
+        output_path = os.path.join(Constants.DETECTION_IMAGES_PATH,f"{counter}.png")
         combined_image.save(output_path)
         print(f"Successfully saved image: {output_path}")
 
@@ -56,7 +57,7 @@ for counter, image_path in enumerate(files):
 
         # Save label
         label_filename = f"{counter}.txt"
-        label_path = os.path.join('object_detection_dataset\\labels', label_filename)
+        label_path = os.path.join(Constants.DETECTION_LABELS_PATH, label_filename)
         with open(label_path, "w") as f:
             f.write(f"{0} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}\n")
         print(f"Label saved: {label_path}")

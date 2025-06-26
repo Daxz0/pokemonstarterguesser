@@ -2,9 +2,17 @@ RESOLUTION = (32,32)
 MAX_NEAREST_NEIGHBORS = 21
 TEST_SPLIT = 0.2
 RANDOM_STATE = 1
-
-TRAINED_MODELS_OUTPUT = "trained_models"
-CLASSIFICATION_DATA_PATH = "object_classification_dataset\\original_data"
-INPUT_PATH = "object_classification_dataset\\input"
-OUTPUT_PATH = "object_classification_dataset\\converted_data"
 LABELS_COUNT = 4
+
+TRAINED_MODELS_PATH = "trained_models"
+
+OBJECT_CLASSIFICATION_DATASET_PATH = "object_classification_dataset"
+CLASSIFICATION_ORIGINAL_DATA_PATH = OBJECT_CLASSIFICATION_DATASET_PATH + "\\original_data"
+CLASSIFICATION_CONVERTED_DATA_PATH = OBJECT_CLASSIFICATION_DATASET_PATH + "\\converted_data"
+
+OBJECT_DETECTION_DATASET_PATH = "object_detection_dataset"
+DETECTION_IMAGES_PATH = OBJECT_DETECTION_DATASET_PATH + "\\images"
+DETECTION_LABELS_PATH = OBJECT_DETECTION_DATASET_PATH + "\\labels"
+
+TEST_FILES_PATH = "test_files"
+TEST_RESULTS_PATH = "test_results"

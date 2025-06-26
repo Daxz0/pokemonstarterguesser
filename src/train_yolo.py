@@ -4,4 +4,4 @@ from ultralytics import YOLO
 model = YOLO('yolov8n.pt')  # Load pretrained model
 
 # Train using your data.yaml
-model.train(data='C:/Data/Anish/Github/pokemonstarterguesser/data.yaml', epochs=50, imgsz=640)
+model.train(data='data.yaml', epochs=50, imgsz=640)

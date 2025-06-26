@@ -3,9 +3,10 @@ import numpy as np
 from ultralytics import YOLO
 from PIL import Image
 
-from src.k_nearest_neighbors import KNearestNeighbors
+import Constants
+from k_nearest_neighbors import KNearestNeighbors
 
-def draw_bounding_boxes_with_knn(image_path, knn_model_path='trained_models\\pokemon_classifier_model.pkl', yolo_model_path='runs/detect/train6/weights/best.pt'):
+def draw_bounding_boxes_with_knn(image_path, knn_model_path=Constants.TRAINED_MODELS_PATH + "\\pokemon_classifier_model.pkl", yolo_model_path='runs/detect/train6/weights/best.pt'):
     # Load models
     model = YOLO(yolo_model_path)
     knn_model = KNearestNeighbors.load_model(knn_model_path)
@@ -37,6 +38,6 @@ def draw_bounding_boxes_with_knn(image_path, knn_model_path='trained_models\\pok
                     0.9, (0, 255, 0), 2)
 
     # Save output
-    output_path = "test_results\\output_with_knn_labels.jpg"
+    output_path = Constants.TEST_RESULTS_PATH + "\\output_with_knn_labels.jpg"
     cv2.imwrite(output_path, image)
     print(f"Saved: {output_path}")

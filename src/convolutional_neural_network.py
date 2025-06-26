@@ -12,10 +12,7 @@ from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
 from sklearn.preprocessing import LabelEncoder
 
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
 import Constants
-from init import *
 
 class ConvolutionNeuralNetwork:
     
@@ -24,8 +21,8 @@ class ConvolutionNeuralNetwork:
         self.layers = layers
         self.dropout = dropout
         self.label_encoder = LabelEncoder()
-        self.label_path = os.path.join(Constants.TRAINED_MODELS_OUTPUT, "CNN_LABEL_ENCODER.pkl")
-        self.model_path = os.path.join(Constants.TRAINED_MODELS_OUTPUT, "CNN_MODEL.keras")
+        self.label_path = os.path.join(Constants.TRAINED_MODELS_PATH, "CNN_LABEL_ENCODER.pkl")
+        self.model_path = os.path.join(Constants.TRAINED_MODELS_PATH, "CNN_MODEL.keras")
         self.history = None
 
         
@@ -67,7 +64,7 @@ class ConvolutionNeuralNetwork:
         return model
 
     def load_and_preprocess(self):
-        from init import load_data  # avoid circular import
+        from initialize_images import load_data  # avoid circular import
         data, labels = load_data()
         X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.1)
 

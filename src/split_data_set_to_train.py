@@ -2,9 +2,11 @@ import random
 import shutil
 from pathlib import Path
 
-dataset_root = Path("C:/Data/Anish/Github/pokemonstarterguesser/object_detection_dataset")
-images_dir = dataset_root / "images"
-labels_dir = dataset_root / "labels"
+import Constants
+
+dataset_root = Constants.OBJECT_DETECTION_DATASET_PATH
+images_dir = Constants.DETECTION_IMAGES_PATH
+labels_dir = Constants.DETECTION_LABELS_PATH
 
 # Output folders
 train_images = images_dir / "train"
