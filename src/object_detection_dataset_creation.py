@@ -8,13 +8,11 @@ from rembg import remove
 import Constants
 from conversion_between_yolo_coordinates import to_yolo_format
 
-# Load background once
 background = Image.open(Constants.OBJECT_DETECTION_DATASET_PATH + "\\object_detection_background.jpg")
 #background = cv2.resize(background, (2000, 2000), interpolation=cv2.INTER_AREA)
 background = background.resize((2000, 2000))
 max_width, max_height = background.size
 
-# Get all valid image file paths
 print("Classification Data Images Path:", Constants.OBJECT_CLASSIFICATION_DATASET_PATH)
 print("Entries:", os.listdir(Constants.OBJECT_CLASSIFICATION_DATASET_PATH))
 
@@ -23,7 +21,6 @@ files = [f for f in files if os.path.isfile(f) and f.lower().endswith((".png", "
 
 print("Found", len(files), "image files to process.")
 
-# Loop through each file safely
 for counter, image_path in enumerate(files):
     try:
         print(f"Processing image: {image_path}")
