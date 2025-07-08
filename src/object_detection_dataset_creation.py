@@ -24,21 +24,20 @@ print("Found", len(files), "image files to process.")
 for counter, image_path in enumerate(files):
     try:
         print(f"Processing image: {image_path}")
-        image = Image.open(image_path).convert("RGBA")  # Convert to RGBA for transparency
+        image = Image.open(image_path).convert("RGBA")
         image_width, image_height = image.size
 
         #cv2.resize(image, (image_width / 1.5, image_height / 1.5), interpolation=cv2.INTER_AREA)
 
-        image_no_bg = remove(image)  # Fix: Use `image`, not `input`
+        image_no_bg = remove(image)
         image_no_bg_width, image_no_bg_height = image_no_bg.size
 
-        # Ensure position fits within background
         random_X = random.randint(0, max_width - image_no_bg_width)
         random_y = random.randint(0, max_height - image_no_bg_height)
         position = (random_X, random_y)
 
         combined_image = background.copy()
-        combined_image.paste(image_no_bg, position, image_no_bg)  # Use mask
+        combined_image.paste(image_no_bg, position, image_no_bg)
 
         output_path = os.path.join(Constants.DETECTION_IMAGES_PATH,f"{counter}.png")
         combined_image.save(output_path)
@@ -49,10 +48,8 @@ for counter, image_path in enumerate(files):
         x_max = random_X + image_no_bg_height
         y_max = random_y + image_no_bg_height
 
-        # Normalize for YOLO format
         x_center, y_center, width, height = to_yolo_format(x_min, y_min, x_max, y_max, max_width, max_height)
 
-        # Save label
         label_filename = f"{counter}.txt"
         label_path = os.path.join(Constants.DETECTION_LABELS_PATH, label_filename)
         with open(label_path, "w") as f:
