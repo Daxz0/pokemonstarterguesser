@@ -31,7 +31,6 @@ def copy_pairs(files, image_dest, label_dest):
         else:
             print(f"No label for {image_path.name}, skipping.")
 
-# Copy files
 copy_pairs(train_files, train_images, train_labels)
 copy_pairs(val_files, val_images, val_labels)
 
