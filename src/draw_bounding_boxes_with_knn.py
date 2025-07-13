@@ -3,8 +3,8 @@ import numpy as np
 from ultralytics import YOLO
 from PIL import Image
 
-import Constants
-from k_nearest_neighbors import KNearestNeighbors
+import src.Constants as Constants
+from src.k_nearest_neighbors import KNearestNeighbors
 
 def draw_bounding_boxes_with_knn(image_path, knn_model_path=Constants.TRAINED_MODELS_PATH + "\\pokemon_classifier_model.pkl", yolo_model_path='runs/detect/train6/weights/best.pt'):
     # Load models

@@ -2,7 +2,7 @@ import random
 import shutil
 from pathlib import Path
 
-import Constants
+import src.Constants as Constants
 
 dataset_root = Constants.OBJECT_DETECTION_DATASET_PATH
 images_dir = Constants.DETECTION_IMAGES_PATH

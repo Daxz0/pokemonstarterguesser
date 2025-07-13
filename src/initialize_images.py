@@ -2,7 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 
-import Constants
+import src.Constants as Constants
 
 def lower_image_resolution(
     iterations: int,

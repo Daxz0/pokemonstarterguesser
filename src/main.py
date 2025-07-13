@@ -1,8 +1,8 @@
 import numpy as np
 from PIL import Image
 
-import Constants
-import convolutional_neural_network as cnn
+import src.Constants as Constants
+import src.convolutional_neural_network as cnn
 
 
 model = cnn.ConvolutionNeuralNetwork(num_epochs=50)

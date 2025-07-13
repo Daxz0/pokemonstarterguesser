@@ -5,8 +5,8 @@ import glob
 from PIL import Image
 from rembg import remove
 
-import Constants
-from conversion_between_yolo_coordinates import to_yolo_format
+import src.Constants as Constants
+from src.conversion_between_yolo_coordinates import to_yolo_format
 
 # Load background once
 background = Image.open(Constants.OBJECT_DETECTION_DATASET_PATH + "\\object_detection_background.jpg")

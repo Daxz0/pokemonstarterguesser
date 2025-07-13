@@ -12,7 +12,7 @@ from keras.layers import Activation, MaxPooling2D, Dropout, Flatten, Reshape
 from keras.utils import to_categorical
 from sklearn.preprocessing import LabelEncoder
 
-import Constants
+import src.Constants as Constants
 
 class ConvolutionNeuralNetwork:
     
